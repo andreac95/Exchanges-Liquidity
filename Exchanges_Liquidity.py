@@ -1,7 +1,7 @@
 try:
     from pycoingecko import CoinGeckoAPI
 except:
-    !pip install pycoingecko
+    pip install pycoingecko
 import pandas as pd
 import requests
 import seaborn as sb
