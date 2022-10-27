@@ -29,6 +29,8 @@ with st.form(key='Search', clear_on_submit=False):
     quote = st.selectbox('Select the quote (for plotting)', all_quotes, index=0)
     submit_button = st.form_submit_button(label='Search')
     
+    # Please add in this dictionary the crypto not found
+    
     prova_dict = {'xrp': 'ripple', 'ape': 'apecoin', 'atm': 'atletico-madrid', 
                   'chess': 'tranchess', 'city': 'manchester-city-fan-token', 'comp': 'compound-governance-token', 'crb': 'crb-coin', 
                   'dfi': 'defichain', 'flux': 'zelcash', 'gmt': 'gmt-token', 'grt': 'the-graph', 'kmd': 'komodo', 'lrc': 'loopring'}
