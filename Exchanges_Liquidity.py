@@ -36,7 +36,8 @@ with st.form(key='Search', clear_on_submit=False):
                   'dfi': 'defichain', 'flux': 'zelcash', 'gmt': 'gmt-token', 'grt': 'the-graph', 'kmd': 'komodo', 'lrc': 'loopring',
                   'gmt': 'stepn', 'lina': 'linear', 'lunc': 'terra-luna', 'omg': 'omisego', 'pla' : 'playdapp', 'poly' : 'polymath',
                   'rad' : 'radicle', 'rune' : 'thorchain', 'sand' : 'the-sandbox', 'sc' : 'siacoin', 'snt' : 'status', 'sun' : 'sun-token',
-                  'super' : 'superfarm'} 
+                  'super' : 'superfarm', 'tru' : 'truefi', 'tt' : 'thunder-token', 'uni' : 'uniswap', 'usdc' : 'usd-coin', 'waves' : 'waves',
+                  'xbt' : 'xbit'} 
     
 if submit_button:     
     try:
