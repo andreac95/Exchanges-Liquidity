@@ -33,7 +33,10 @@ with st.form(key='Search', clear_on_submit=False):
     
     prova_dict = {'xrp': 'ripple', 'ape': 'apecoin', 'atm': 'atletico-madrid', 
                   'chess': 'tranchess', 'city': 'manchester-city-fan-token', 'comp': 'compound-governance-token', 'crb': 'crb-coin', 
-                  'dfi': 'defichain', 'flux': 'zelcash', 'gmt': 'gmt-token', 'grt': 'the-graph', 'kmd': 'komodo', 'lrc': 'loopring'}
+                  'dfi': 'defichain', 'flux': 'zelcash', 'gmt': 'gmt-token', 'grt': 'the-graph', 'kmd': 'komodo', 'lrc': 'loopring',
+                  'gmt': 'stepn', 'lina': 'linear', 'lunc': 'terra-luna', 'omg': 'omisego', 'pla' : 'playdapp', 'poly' : 'polymath',
+                  'rad' : 'radicle', 'rune' : 'thorchain', 'sand' : 'the-sandbox', 'sc' : 'siacoin', 'snt' : 'status', 'sun' : 'sun-token',
+                  'super' : 'superfarm'} 
     
 if submit_button:     
     try:
