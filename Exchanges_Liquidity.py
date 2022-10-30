@@ -81,10 +81,37 @@ if submit_button:
     # Display the table with the data + metrics
     
     df_pairs = df_pairs.replace('XBT', 'BTC')
-    df_pairs = df_pairs.replace('USD', 'USDT')
+
     
-    if exchange == 'All': 
-        max_idx = (df_pairs['Volume 24h (EUR)']).idxmax()
+    if exchange == 'All':  
+        def min_max_scaler(data):
+            return (data - data.min())/(data.max() - data.min())
+        
+        base = df_pairs['Base'][0]
+        quote = quote.upper()
+        sel_pair = base + '/' + quote
+        df_pairs_temp = df_pairs[df_pairs['Quote']==quote]
+        
+        if len(df_pairs_temp) == 0:
+            st.
+            print('Quote asset not found!')
+        elif len(df_pairs_temp[df_pairs_temp['LiquidityScore (0-3)']==3])>0:
+            print('Considering only Exchanges with max Trust Score on Coingecko (3):')
+            df_pairs_temp = df_pairs_temp[df_pairs_temp['LiquidityScore (0-3)']==3]
+            df_pairs_temp['Our Score'] = min_max_scaler(df_pairs_temp['Volume 24h (EUR)'])*0.4 + min_max_scaler(df_pairs_temp['+2% Depth (EUR)'])*0.3 + min_max_scaler(df_pairs_temp['-2% Depth (EUR)'])*0.3
+            best_l = df_pairs_temp['Exchange'].loc[df_pairs_temp['Our Score'].idxmax()]
+            best_score = max(df_pairs_temp['Our Score'])
+            print("\n")
+            print(f'------> {best_l} has the best liquidity for {sel_pair} with a score of {round(best_score, 2)*10}/10 <------')     
+        else:
+            print('All the available Exchanges have a low Trust Score on Coingecko! (<3):')
+            df_pairs_temp['Our Score'] = min_max_scaler(df_pairs_temp['Volume 24h (EUR)'])*0.4 + min_max_scaler(df_pairs_temp['+2% Depth (EUR)'])*0.3 + min_max_scaler(df_pairs_temp['-2% Depth (EUR)'])*0.3
+            best_l = df_pairs_temp['Exchange'].loc[df_pairs_temp['Our Score'].idxmax()]
+            best_score = max(df_pairs_temp['Our Score'])
+            print("\n")
+            print(f'------> {best_l} has the best liquidity for {sel_pair} with a score of {round(best_score, 2)*10}/10 <------')          
+        
+        max_idx = (df_pairs_temp['Our Score']).idxmax()
         max_exchange = df_pairs['Exchange'][max_idx]
         max_quote = df_pairs['Quote'][max_idx]
         max_p2 = df_pairs['Exchange'][df_pairs['+2% Depth (EUR)'].idxmax()]
@@ -102,15 +129,13 @@ if submit_button:
         col1.metric(label=f'24h Volumes on {max_exchange}', value=millify(prova, precision=2), delta=f"{round(delta_vol, 2)}%")
         col2.metric(label=f'+2% Depth on {max_p2}', value=millify(df_pairs['+2% Depth (EUR)'][max_idx], precision=2), delta=f'{round(delta_depth_plus, 2)}%')
         col3.metric(label=f'-2% Depth on {max_m2}', value=millify(df_pairs['-2% Depth (EUR)'][max_idx], precision=2), delta=f"{round(delta_depth_minus, 2)}%")
-        col4.metric(label=f'LiquidityScore on {max_exchange}', value=df_pairs['LiquidityScore (0-3)'][max_idx])
+        col4.metric(label=f'LiquidityScore on {max_exchange}', value=df_pairs_temp['Our Score'][max_idx])
         st.dataframe(df_pairs, use_container_width=True)
     #    st.dataframe(df_pairs.style.highlight_max(axis=0), use_container_width=True)
             
         # Plot Bin and Treemap volumes for specific pairs
-    
-        base = df_pairs['Base'][0]
-        quote = quote.upper()
-        sel_pair = base + '/' + quote
+        
+        df_pairs = df_pairs.replace('USD', 'USDT')
         df_plotting = (df_pairs.loc[(df_pairs['Quote'] == quote) & (df_pairs['Base'] == base)]).sort_values('Volume 24h (EUR)', ascending=False)
         df_plotting = (df_plotting.groupby(['Exchange', 'Base', 'Quote'], as_index=False)['Volume 24h (EUR)'].sum()).sort_values('Volume 24h (EUR)', ascending=False)
     
