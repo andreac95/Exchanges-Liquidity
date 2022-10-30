@@ -129,7 +129,7 @@ if submit_button:
         col1.metric(label=f'24h Volumes on {max_exchange}', value=millify(prova, precision=2), delta=f"{round(delta_vol, 2)}%")
         col2.metric(label=f'+2% Depth on {max_p2}', value=millify(df_pairs['+2% Depth (EUR)'][max_idx], precision=2), delta=f'{round(delta_depth_plus, 2)}%')
         col3.metric(label=f'-2% Depth on {max_m2}', value=millify(df_pairs['-2% Depth (EUR)'][max_idx], precision=2), delta=f"{round(delta_depth_minus, 2)}%")
-        col4.metric(label=f'LiquidityScore on {max_exchange}', value=df_pairs_temp['Our Score'][max_idx])
+        col4.metric(label=f'LiquidityScore on {max_exchange}', value=round(df_pairs_temp['Our Score'][max_idx], 2)*10)
         st.dataframe(df_pairs, use_container_width=True)
     #    st.dataframe(df_pairs.style.highlight_max(axis=0), use_container_width=True)
             
