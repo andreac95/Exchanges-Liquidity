@@ -93,7 +93,7 @@ if submit_button:
         df_pairs_temp = df_pairs[df_pairs['Quote']==quote]
         
         if len(df_pairs_temp) == 0:
-            st.
+            st.header(f'{sel_pair} not found!')
             print('Quote asset not found!')
         elif len(df_pairs_temp[df_pairs_temp['LiquidityScore (0-3)']==3])>0:
             print('Considering only Exchanges with max Trust Score on Coingecko (3):')
