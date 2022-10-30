@@ -112,20 +112,20 @@ if submit_button:
             print(f'------> {best_l} has the best liquidity for {sel_pair} with a score of {round(best_score, 2)*10}/10 <------')          
         
         max_idx = (df_pairs_temp['Our Score']).idxmax()
-        max_exchange = df_pairs['Exchange'][max_idx]
-        max_quote = df_pairs['Quote'][max_idx]
-        max_p2 = df_pairs['Exchange'][df_pairs['+2% Depth (EUR)'].idxmax()]
-        max_m2 = df_pairs['Exchange'][df_pairs['-2% Depth (EUR)'].idxmax()]
-        delta_vol = (df_pairs['Volume 24h (EUR)'][(df_pairs['Exchange'] != max_exchange) & (df_pairs['Quote'] == max_quote)].nlargest(2)).iloc[0]
-        delta_depth_plus = (df_pairs['+2% Depth (EUR)'][(df_pairs['Exchange'] != max_exchange) & (df_pairs['Quote'] == max_quote)].nlargest(2)).iloc[0]
-        delta_depth_minus = (df_pairs['-2% Depth (EUR)'][(df_pairs['Exchange'] != max_exchange) & (df_pairs['Quote'] == max_quote)].nlargest(2)).iloc[0]
+        max_exchange = df_pairs_temp['Exchange'][max_idx]
+        max_quote = df_pairs_temp['Quote'][max_idx]
+        max_p2 = df_pairs_temp['Exchange'][df_pairs_temp['+2% Depth (EUR)'].idxmax()]
+        max_m2 = df_pairs_temp['Exchange'][df_pairs_temp['-2% Depth (EUR)'].idxmax()]
+        delta_vol = (df_pairs_temp['Volume 24h (EUR)'][(df_pairs_temp['Exchange'] != max_exchange) & (df_pairs_temp['Quote'] == max_quote)].nlargest(2)).iloc[0]
+        delta_depth_plus = (df_pairs_temp['+2% Depth (EUR)'][(df_pairs_temp['Exchange'] != max_exchange) & (df_pairs_temp['Quote'] == max_quote)].nlargest(2)).iloc[0]
+        delta_depth_minus = (df_pairs_temp['-2% Depth (EUR)'][(df_pairs_temp['Exchange'] != max_exchange) & (df_pairs_temp['Quote'] == max_quote)].nlargest(2)).iloc[0]
         delta_score = (df_pairs_temp['Our Score'][(df_pairs_temp['Exchange'] != max_exchange) & (df_pairs_temp['Quote'] == max_quote)].nlargest(2)).iloc[0]
-        max_quote = df_pairs['Quote'][max_idx]
-        st.header(f'Best Liquidity for {crypto.upper()} found on {max_exchange}', anchor=None)
-        prova = df_pairs['Volume 24h (EUR)'][max_idx]
-        delta_vol = (max(df_pairs['Volume 24h (EUR)'])/delta_vol)*100
-        delta_depth_plus = ((df_pairs['+2% Depth (EUR)'][max_idx])/delta_depth_plus)*100
-        delta_depth_minus = ((df_pairs['-2% Depth (EUR)'][max_idx])/delta_depth_minus)*100
+        max_quote = df_pairs_temp['Quote'][max_idx]
+        st.header(f'Best Liquidity for {sel_pair} found on {max_exchange}', anchor=None)
+        prova = df_pairs_temp['Volume 24h (EUR)'][max_idx]
+        delta_vol = (max(df_pairs_temp['Volume 24h (EUR)'])/delta_vol)*100
+        delta_depth_plus = ((df_pairs_temp['+2% Depth (EUR)'][max_idx])/delta_depth_plus)*100
+        delta_depth_minus = ((df_pairs_temp['-2% Depth (EUR)'][max_idx])/delta_depth_minus)*100
         delta_score = (df_pairs_temp['Our Score'][max_idx]) - delta_score
         col1, col2, col3, col4 = st.columns(4)
         col1.metric(label=f'24h Volumes on {max_exchange}', value=millify(prova, precision=2), delta=f"{round(delta_vol, 2)}%")
