@@ -119,17 +119,19 @@ if submit_button:
         delta_vol = (df_pairs['Volume 24h (EUR)'][(df_pairs['Exchange'] != max_exchange) & (df_pairs['Quote'] == max_quote)].nlargest(2)).iloc[0]
         delta_depth_plus = (df_pairs['+2% Depth (EUR)'][(df_pairs['Exchange'] != max_exchange) & (df_pairs['Quote'] == max_quote)].nlargest(2)).iloc[0]
         delta_depth_minus = (df_pairs['-2% Depth (EUR)'][(df_pairs['Exchange'] != max_exchange) & (df_pairs['Quote'] == max_quote)].nlargest(2)).iloc[0]
+        delta_score = (df_pairs_temp['Our Score'][(df_pairs_temp['Exchange'] != max_exchange) & (df_pairs_temp['Quote'] == max_quote)].nlargest(2)).iloc[0]
         max_quote = df_pairs['Quote'][max_idx]
         st.header(f'Best Liquidity for {crypto.upper()} found on {max_exchange}', anchor=None)
         prova = df_pairs['Volume 24h (EUR)'][max_idx]
         delta_vol = (max(df_pairs['Volume 24h (EUR)'])/delta_vol)*100
         delta_depth_plus = ((df_pairs['+2% Depth (EUR)'][max_idx])/delta_depth_plus)*100
         delta_depth_minus = ((df_pairs['-2% Depth (EUR)'][max_idx])/delta_depth_minus)*100
+        delta_score = (df_pairs_temp['Our Score'][max_idx]) - delta_score
         col1, col2, col3, col4 = st.columns(4)
         col1.metric(label=f'24h Volumes on {max_exchange}', value=millify(prova, precision=2), delta=f"{round(delta_vol, 2)}%")
         col2.metric(label=f'+2% Depth on {max_p2}', value=millify(df_pairs['+2% Depth (EUR)'][max_idx], precision=2), delta=f'{round(delta_depth_plus, 2)}%')
         col3.metric(label=f'-2% Depth on {max_m2}', value=millify(df_pairs['-2% Depth (EUR)'][max_idx], precision=2), delta=f"{round(delta_depth_minus, 2)}%")
-        col4.metric(label=f'LiquidityScore on {max_exchange}', value=round(df_pairs_temp['Our Score'][max_idx], 2)*10)
+        col4.metric(label=f'LiquidityScore on {max_exchange}', value=round(df_pairs_temp['Our Score'][max_idx], 2)*10, delta=f"{round(delta_score, 2)*10}")
         st.dataframe(df_pairs, use_container_width=True)
     #    st.dataframe(df_pairs.style.highlight_max(axis=0), use_container_width=True)
             
